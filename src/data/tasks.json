@@ -16,5 +16,14 @@
     "priority": "medium",
     "assignee": "Ahmet",
     "createdAt": "2026-09-22T14:30:00.000Z"
+  },
+  {
+    "id": 3,
+    "title": "Dashboard ekranını geliştir",
+    "description": "Dashboard arayüzünü React ile geliştir",
+    "status": "pending",
+    "priority": "high",
+    "assignee": "Seda",
+    "createdAt": "2026-09-22T15:42:13.911Z"
   }
 ]

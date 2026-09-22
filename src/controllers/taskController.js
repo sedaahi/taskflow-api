@@ -1,3 +1,8 @@
+const fs = require("fs"); //dosyaya veri yazmak için fs modülünü import ediyoruz
+const path = require("path"); //task.json dosyasının yolunu almak için path modülünü import ediyoruz
+
+const tasksFilePath = path.join(__dirname, "../data/tasks.json"); //şu an çalışan dosyanın bulunduğu klasörü verir.
+
 const tasks = require("../data/tasks.json"); //Task.json dosyasından verileri alıyoruz
 
 const getAllTasks = (req, res) => {
@@ -18,8 +23,34 @@ const getTaskById = (req, res) => {
   res.status(200).json(task); //Eğer görev bulunursa 200 OK ile birlikte görevi döndürüyoruz
 };
 
+const createTask = (req, res) => {
+  const { title, description, status, priority, assignee } = req.body;
+
+  const newTask = {
+    id: tasks.length > 0
+      ? Math.max(...tasks.map((task) => task.id)) + 1
+      : 1,
+    title,
+    description,
+    status: status || "pending",
+    priority,
+    assignee,
+    createdAt: new Date().toISOString(),
+  };
+
+  tasks.push(newTask);
+
+  fs.writeFileSync(
+    tasksFilePath,
+    JSON.stringify(tasks, null, 2)
+  );
+
+  res.status(201).json(newTask);
+};
+
 
 module.exports = {
   getAllTasks, //fonksiyonu başka dosyalarda kullanabilmek için export ediyoruz
   getTaskById,
+  createTask,
 }
