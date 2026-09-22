@@ -5,6 +5,14 @@ const tasksFilePath = path.join(__dirname, "../data/tasks.json"); //şu an çal�
 
 const tasks = require("../data/tasks.json"); //Task.json dosyasından verileri alıyoruz
 
+const saveTasks = () => {
+  fs.writeFileSync(
+    tasksFilePath,
+    JSON.stringify(tasks, null, 2)
+  );
+};
+
+
 const getAllTasks = (req, res) => {
   res.status(200).json(tasks); //Tüm görevleri döndürüyoruz
 };
@@ -40,10 +48,7 @@ const createTask = (req, res) => {
 
   tasks.push(newTask);
 
-  fs.writeFileSync(
-    tasksFilePath,
-    JSON.stringify(tasks, null, 2)
-  );
+  saveTasks();
 
   res.status(201).json(newTask);
 };
@@ -63,14 +68,12 @@ const updateTask = (req, res) => {
     ...tasks[taskIndex],
     ...req.body,
     id: tasks[taskIndex].id,
+    createdAt: tasks[taskIndex].createdAt,
   };
 
   tasks[taskIndex] = updatedTask;
 
-  fs.writeFileSync(
-    tasksFilePath,
-    JSON.stringify(tasks, null, 2)
-  );
+  saveTasks();
 
   res.status(200).json(updatedTask);
 };
@@ -88,10 +91,7 @@ const deleteTask = (req, res) => {
 
   const deletedTask = tasks.splice(taskIndex, 1)[0]; //splice=>diziden eleman silmek için kullanılır. Silinen elemanı döndürür.
 
-  fs.writeFileSync(
-    tasksFilePath,
-    JSON.stringify(tasks, null, 2)
-  );
+  saveTasks();
 
   res.status(200).json({
     message: "Task deleted successfully",

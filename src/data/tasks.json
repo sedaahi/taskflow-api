@@ -3,10 +3,10 @@
     "id": 1,
     "title": "Login ekranını geliştir",
     "description": "Kullanıcı giriş ekranının geliştirilmesi",
-    "status": "completed",
-    "priority": "medium",
+    "status": "pending",
+    "priority": "high",
     "assignee": "Seda",
-    "createdAt": "..."
+    "createdAt": "2026-09-22T14:00:00.000Z"
   },
   {
     "id": 2,
@@ -16,14 +16,5 @@
     "priority": "medium",
     "assignee": "Ahmet",
     "createdAt": "2026-09-22T14:30:00.000Z"
-  },
-  {
-    "id": 4,
-    "title": "Middleware ekle",
-    "description": "Middleware logger entegrasyonu",
-    "status": "pending",
-    "priority": "high",
-    "assignee": "Seda",
-    "createdAt": "2026-09-22T15:47:54.575Z"
   }
 ]
