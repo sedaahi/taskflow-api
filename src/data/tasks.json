@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "Login ekranını geliştir",
+    "description": "Kullanıcı giriş ekranının geliştirilmesi",
+    "status": "pending",
+    "priority": "high",
+    "assignee": "Seda",
+    "createdAt": "2026-09-22T14:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "title": "API dokümantasyonunu hazırla",
+    "description": "TASKFLOW endpointlerini dokümante et",
+    "status": "in-progress",
+    "priority": "medium",
+    "assignee": "Ahmet",
+    "createdAt": "2026-09-22T14:30:00.000Z"
+  }
+]
