@@ -48,9 +48,61 @@ const createTask = (req, res) => {
   res.status(201).json(newTask);
 };
 
+const updateTask = (req, res) => {
+  const id = Number(req.params.id);
+
+  const taskIndex = tasks.findIndex((task) => task.id === id); //findIndex=>dizideki konumunu veriyor=> bulamazsa -1 döndürüyor
+
+  if (taskIndex === -1) {
+    return res.status(404).json({
+      message: "Task not found",
+    });
+  }
+
+  const updatedTask = {
+    ...tasks[taskIndex],
+    ...req.body,
+    id: tasks[taskIndex].id,
+  };
+
+  tasks[taskIndex] = updatedTask;
+
+  fs.writeFileSync(
+    tasksFilePath,
+    JSON.stringify(tasks, null, 2)
+  );
+
+  res.status(200).json(updatedTask);
+};
+
+const deleteTask = (req, res) => {
+  const id = Number(req.params.id);
+
+  const taskIndex = tasks.findIndex((task) => task.id === id);
+
+  if (taskIndex === -1) {
+    return res.status(404).json({
+      message: "Task not found",
+    });
+  }
+
+  const deletedTask = tasks.splice(taskIndex, 1)[0]; //splice=>diziden eleman silmek için kullanılır. Silinen elemanı döndürür.
+
+  fs.writeFileSync(
+    tasksFilePath,
+    JSON.stringify(tasks, null, 2)
+  );
+
+  res.status(200).json({
+    message: "Task deleted successfully",
+    task: deletedTask,
+  });
+};
 
 module.exports = {
   getAllTasks, //fonksiyonu başka dosyalarda kullanabilmek için export ediyoruz
   getTaskById,
   createTask,
+  updateTask,
+  deleteTask,
 }
