@@ -25,5 +25,14 @@
     "priority": "high",
     "assignee": "Seda",
     "createdAt": "2026-09-22T15:42:13.911Z"
+  },
+  {
+    "id": 4,
+    "title": "Middleware ekle",
+    "description": "Middleware logger entegrasyonu",
+    "status": "pending",
+    "priority": "high",
+    "assignee": "Seda",
+    "createdAt": "2026-09-22T15:47:54.575Z"
   }
 ]

@@ -3,8 +3,10 @@ const taskRoutes = require("./routes/taskRoutes"); //taskRoutes.js dosyasındaki
 
 const app = express();
 const PORT = 3000;
+const logger = require("./middleware/logger");
 
 app.use(express.json());
+app.use(logger); //logger yalnızca belirli bir endpoint'te değil, uygulamaya gelen bütün isteklerde çalışıyor
 
 app.get("/", (req, res) => {
   res.json({
