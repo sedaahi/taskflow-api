@@ -14,7 +14,69 @@ const saveTasks = () => {
 
 
 const getAllTasks = (req, res) => {
-  res.status(200).json(tasks); //Tüm görevleri döndürüyoruz
+  const {
+    status,
+    priority,
+    assignee,
+    search,
+    page,
+    limit,
+    sort,
+  } = req.query;
+
+  let filteredTasks = [...tasks];
+
+  if (status) {
+    filteredTasks = filteredTasks.filter(
+      (task) => task.status === status
+    );
+  }
+
+  if (priority) {
+    filteredTasks = filteredTasks.filter(
+      (task) => task.priority === priority
+    );
+  }
+
+  if (assignee) {
+    filteredTasks = filteredTasks.filter(
+      (task) => task.assignee === assignee
+    );
+  }
+
+  if (search) { //search parametresi varsa, title ve description alanlarında arama yapıyoruz
+    const searchText = search.toLowerCase();
+
+    filteredTasks = filteredTasks.filter(
+      (task) =>
+        task.title.toLowerCase().includes(searchText) || //title ve description alanlarında arama yapıyoruz
+        task.description.toLowerCase().includes(searchText)
+    );
+  }
+
+  if (sort === "asc") {
+    filteredTasks.sort(
+      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+    );
+  }
+
+  if (sort === "desc") {
+    filteredTasks.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+  }
+
+  if (page && limit) {
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+
+    const startIndex = (pageNumber - 1) * limitNumber;
+    const endIndex = startIndex + limitNumber;
+
+    filteredTasks = filteredTasks.slice(startIndex, endIndex);
+  }
+
+  res.status(200).json(filteredTasks); //200 OK ile birlikte filtrelenmiş görevleri döndürüyoruz
 };
 
 const getTaskById = (req, res) => {
@@ -99,10 +161,35 @@ const deleteTask = (req, res) => {
   });
 };
 
+const getTaskReport = (req, res) => {
+  const report = {
+    totalTasks: tasks.length, //Toplam görev sayısını döndürüyoruz
+
+    byStatus: { //Görevlerin durumlarına göre sayısını döndürüyoruz
+      pending: tasks.filter((task) => task.status === "pending").length, //önce pending olan görevleri buluyor, sonra .length ile kaç tane olduklarını hesaplıyor.
+      "in-progress": tasks.filter(
+        (task) => task.status === "in-progress"
+      ).length,
+      completed: tasks.filter(
+        (task) => task.status === "completed"
+      ).length,
+    },
+
+    byPriority: {
+      low: tasks.filter((task) => task.priority === "low").length,
+      medium: tasks.filter((task) => task.priority === "medium").length,
+      high: tasks.filter((task) => task.priority === "high").length,
+    },
+  };
+
+  res.status(200).json(report);
+};
+
 module.exports = {
   getAllTasks, //fonksiyonu başka dosyalarda kullanabilmek için export ediyoruz
   getTaskById,
   createTask,
   updateTask,
   deleteTask,
+  getTaskReport,
 }
