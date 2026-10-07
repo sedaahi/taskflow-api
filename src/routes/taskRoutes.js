@@ -1,4 +1,5 @@
 const express = require("express");
+const validateTask = require("../middleware/validation");
 const {
   getAllTasks,
   getTaskById,
@@ -13,7 +14,7 @@ router.get("/", getAllTasks); //Bu route'a Get isteği geldiğinde getAllTasks f
 
 router.get("/:id", getTaskById);
 
-router.post("/", createTask);
+router.post("/", validateTask, createTask);
 
 router.put("/:id", updateTask);
 
