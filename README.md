@@ -64,7 +64,7 @@ taskflow-api/
 Clone the repository:
 
 ```bash
-git clone https://github.com/sedaahi/taskflow-api
+git clone https://github.com/sedaahi/taskflow-api.git
 ```
 
 Navigate to the project directory:
